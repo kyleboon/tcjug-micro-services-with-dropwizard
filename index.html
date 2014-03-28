@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Micro-services with Dropwizard</title>
+
+    <meta name="author" content="Kyle Boon"/>
+    <meta name="description" content=""/>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/simple.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+        if( window.location.search.match( /print-pdf/gi ) ) {
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = 'css/print/pdf.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        }
+    </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1>Micro-services with Dropwizard</h1>
+                    <p>Kyle Boon</p>
+                </section>
+                <section>
+                    <h2>Kyle Boon</h2>
+                    <span style="float: left;">
+                        <div style="text-align: right;">Team Lead @ Bloomhealth</div>
+                        <div style="text-align: right;">kyle.f.boon@gmail.com</div>
+                        <div style="text-align: right;">@kyleboon</div>
+                        <div style="text-align: right;">http://www.kyleboon.org</div>
+                    </span>
+                    <span style="float: right;">
+                        <img src="http://i.imgur.com/MSnknm0.jpg"
+                        style="line-height: 1.2em;font-size: 36.0px;letter-spacing: -0.02em;">
+                    </span>
+                </section>
+                <section>
+                    <h2>Architecture 2011</h2>
+                    <div class="fragment"><img src='images/1app.png'/></div>
+                </section>
+                <section>
+                    <h2>Architecture 2012</h2>
+                    <div class="fragment"><img src='images/2apps.png'/></div>
+                </section>
+                <section>
+                    <h2>Architecture 2013</h2>
+                    <div class="fragment"><img src='images/soa.png'/></div>
+                </section>
+                <section>
+                    <h3>Micro-service architecture is the composition an application by multiple component services.</h3>
+                </section>
+                <section>
+                    <h3>Micro-services are about <b>single-responsibility</b> and <b>bounded countexts</b></h3>
+                </section>
+                <section>
+                    <h2>Independance on various axes</h2>
+                    <ul>
+                        <li>Select implementation and storage technology</li>
+                        <li>Test</li>
+                        <li>Deploy to production</li>
+                        <li>Recover from failure</li>
+                        <li>Monitor</li>
+                        <li>Horizontally scale</li>
+                        <li>Replace</li>
+                    </ul>
+                    <small>http://literateprogrammer.blogspot.com/2014/03/the-microservice-declaration-of.html</small>
+                </section>
+                <section>
+                    <h3>Conway's Law implies that micro-services lead to small independent teams</h3>
+                </section>
+                <section>
+                    <h2>Frameworks for micro-services</h2>
+                    <ul>
+                        <li>Dropwizard</li>
+                        <li>Ratpack</li>
+                        <li>Spring Boot</li>
+                        <li>Finegle</li>
+                        <li>Scalatra</li>
+                        <li>Sinatra</li>
+                        <li>Flask</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>The stack at BloomHealth</h2>
+                    <ul>
+                        <li>Groovy for programming</li>
+                        <li>Grails for web applications</li>
+                        <li>Dropwizard for JSON web services</li>
+                        <li>Gradle for builds</li>
+                        <li>Swagger for Service Discovery</li>
+                        <li>Spock for testing</li>
+                        <li>Gatling for Performace/Load Testing</li>
+                        <li>Redis for Caching</li>
+                        <li>RabbitMQ for messaging</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>What is Dropwizard</h2>
+                    <div style="text-align: left;">Dropwizard is a heavily opinionated framework for building web services
+                        on the JVM. &nbsp;It is mostly glue around mature java libraries like Jetty, Jersey, Jackson and Guava.
+                    </div>
+                    <blockquote>Dropwizard has out-of-the-box support for sophisticated configuration, application metrics,
+                        logging, operational tools, and much more, allowing you and your team to ship a production-quality
+                        HTTP+JSON web service in the shortest time possible.
+                    </blockquote>
+                </section>
+                <section>
+                    <h2>Who Created it?</h2>
+                    <div>@coda</div>
+                    <blockquote>As I've said before, the
+                        only reason Dropwizard exists at all is to provide opinions on what a service should be.
+                        I think they work better.It embeds Jetty because I
+                        think that works better.It uses Jackson because I
+                        think that works better.It uses Jersey because I
+                        think that works better.It has a single YAML
+                        configuration file because I think that works better.
+                        It wraps Logback because
+                        I think that works better.
+                    </blockquote>
+                </section>
+                <section>
+                    <h3><a href="http://www.techempower.com/benchmarks/#section=data-r8&hw=i7&test=db">It's fast</a></h3>
+                </section>
+                <section>
+                    <h3>User dropwizard if you want get stuff done; don't use dropwizard if you want to shave yaks</h3>
+                </section>
+                <section>
+                    <h2>The Application</h2>
+                    <div>Services are a collection of bundles, commands, healthchecks, tasks and resources. The service class defines all of the abilities of your application.</div>
+                </section>
+                <section>
+                    <h2>The Resource</h2>
+                    <div>Resources model what is exposed via your RESTful API. Dropwizard uses Jersey for this so these classes are mostly jersey annotations.</div>
+                </section>
+                <section>
+                    <h2>The Representation</h2>
+                    <div>Your POJOs will be turned into JSON via Jackson. Hibernate Validator lets you specify validation rules.</div>
+                </section>
+                <section>
+                    <h2>Bundles</h2>
+                    <div>Bundles are reusable blocks of behaviour designed to be reused across services. Assets, Hibernate and
+                        Liquibase are all implemented as Dropwizard Bundles.</div>
+                </section>
+                <section>
+                    <h2>Commands</h2>
+                    <div>Commands add options to the command line interface of your service. For example the server starts based
+                        on the 'server' command. Migrations run based on the 'db migrate' command. You might add your own command
+                        for running functional tests or seeding the database.</div>
+                </section>
+                <section>
+                    <h2>Tasks</h2>
+                    <div>Tasks are run time actions available over the administration port. Dropwizard ships with a garbage
+                        collection task. You might want to right a task to clean a cache by key.</div>
+                </section>
+                <section>
+                    <h2>Other Stuff</h2>
+                    <div><ul>
+                        <li>Configuration</li>
+                        <li>Logging</li>
+                        <li>Hibernate/JDBI</li>
+                        <li>Clients</li>
+                        <li>Authentication</li>
+                        <li>Views</li>
+                    </ul></div>
+                </section>
+                <section>
+                    <h2>References - Microservices</h2>
+                    <ul>
+                        <li><a href="http://martinfowler.com/articles/microservices.html">Martin Fowler on Micro-services</a></li>
+                        <li><a href="http://plainoldobjects.com/2014/03/25/thoughts-about-microservices-less-micro-more-service/">Less micro more service</a></li>
+                        <li><a href="http://davidmorgantini.blogspot.com/2013/08/micro-services-what-are-micro-services.html">What are micorservices?</a></li>
+                        <li><a href="http://www.infoq.com/presentations/Micro-Services">Presentation: Micro-services the Unix way</a></li>
+                        <li><a href="http://literateprogrammer.blogspot.com/2014/03/the-microservice-declaration-of.html">Microservice declaration of independence</a></li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>References - Dropwizard</h2>
+                    <div>
+                        <ul>
+                            <li>
+                                <a href="http://dropwizard.github.io/dropwizard/">Dropwizard User Guide</a>
+                            </li>
+                            <li>
+                                <a href="https://groups.google.com/forum/#!forum/dropwizard-user">Dropwizard User Group</a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/dropwizard/dropwizard">https://github.com/codahale/dropwizard<br>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="http://vimeo.com/49822005">Presentation about Dropwizard @ Yammer</a>
+                            </li>
+                            <li>
+                                <a href="http://vimeo.com/37930578">Presentation about Dropwizard @ Simple</a>
+                            </li>
+                            <li>
+                                <a href="http://www.youtube.com/watch?v=czes-oa0yik">Coda Hale and Metrics</a>
+                            </li>
+                            <li>
+                                <a href="http://vimeo.com/40988625">Coda Hale and the Programming Ape</a>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+        <script>
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Parallax scrolling
+                // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+                // parallaxBackgroundSize: '2100px 900px',
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+        </script>
+    </body>
+</html>
